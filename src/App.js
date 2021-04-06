@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import Palette from './Palette';
 import seedColors from './seedColors';
 import './App.css';
@@ -10,5 +9,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
