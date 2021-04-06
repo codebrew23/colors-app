@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ColorBox from './colorBox';
 import './Palette.css';
+import { hex } from 'chroma-js';
 
 class Palette extends Component {
     render () {
