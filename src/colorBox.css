@@ -11,7 +11,10 @@
     height: 50%;
     background-color: black;
 }
-/* .ColorBox .go-back */
+.ColorBox .go-back {
+    background-color: black;
+    position: relative;
+}
 .copy-button, 
 .back-button {
     width: 100px;
