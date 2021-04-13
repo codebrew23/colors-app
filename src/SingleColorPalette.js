@@ -74,7 +74,6 @@ class SingleColorPalette extends Component {
         const { paletteName, emoji, id } = this.props.palette;
         const { classes } = this.props;
 
-
         const colorBoxes = this._shades.map(color => (
             <ColorBox 
                 key={color.name} 
@@ -84,16 +83,16 @@ class SingleColorPalette extends Component {
             />
         ))
         return (
-            <div className='classes.Palette '>
+            <div className={classes.Palette}>
                 <Navbar 
                     handleChange={this.changeFormat} 
                     showingAllColors={false}
                 />
-                <div className='classes.paletteColors'>
+                <div className={classes.paletteColors}>
                     {colorBoxes}
-                    <div className='classes.goBack'>
+                    <div className={classes.goBack}>
 
-                        <Link to={`/palette/${id}`} className='back-button'>
+                        <Link to={`/palette/${id}`} >
                             Go Back
                         </Link>
                     </div>
