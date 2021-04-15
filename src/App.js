@@ -10,19 +10,29 @@ import './App.css';
 import { Component } from 'react';
 
 class App extends Component {
-  findPalette(id) {
-    return seedColors.find(function(palette) {
-      return palette.id === id;
-    })
-  }
+  constructor(props) {
+    super(props);
+    this.state = { palettes: seedColors };
+    this.savePalette = this.savePalette.bind(this);
+    this.findPalette = this.findPalette.bind(this);
 
+  }
+  findPalette(id) {
+    return this.state.palettes.find(function(palette) {
+      return palette.id === id;
+    });
+  };
+  savePalette(newPalette) {
+    console.log(newPalette);
+    this.setSate ({palettes: [...this.state.palettes, newPalette]})
+  }
   render () {
     return (
       <Switch>
         <Route 
           exact
           path='/palette/new' 
-          render={() => <NewPalleteForm/>}
+          render={() => <NewPalleteForm savePalette={this.savePalette}/>}
         />
         <Route 
           exact
@@ -50,14 +60,11 @@ class App extends Component {
           exact 
           path='/'  
           render={routeProps => (
-            <PaletteList palettes={seedColors} {...routeProps}/>
+            <PaletteList palettes={this.state.palettes} {...routeProps}/>
         )} />
         
 
       </Switch>
-      // <div>
-      //   <Palette palette={generatePalette(seedColors[4])}/>
-      // </div>
     );
 
   }
