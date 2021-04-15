@@ -126,11 +126,14 @@ class NewPaletteForm extends Component {
     this.setState ({ colors: [...this.state.colors, newColor ], newName: '' });
   }
   handleSubmit() {
+    let newName='New Test Palette';
     const newPalette = {
-      paletteName: 'New Tets Palette',
+      paletteName: newName,
+      id: newName.toLowerCase().replace(/ /g, '-'),
       colors: this.state.colors
     };
-    this.props.savePalette(newPalette)
+    this.props.savePalette(newPalette);
+    this.props.history.push('/');
   }
   handleChange(e){
     this.setState({newName: e.target.value});
@@ -163,8 +166,8 @@ class NewPaletteForm extends Component {
             </Typography>
             <Button 
               variant="contained" 
-              color="secondary"
-              onClick={this.savePalette}>
+              color="primary"
+              onClick={this.handleSubmit}>
                 Save Palette
             </Button>
           </Toolbar>
