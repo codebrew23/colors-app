@@ -81,13 +81,16 @@ const styles = theme => ({
   },
 });
 class NewPaletteForm extends Component {
+  static defaultProps = {
+    maxColors: 20
+  }
   constructor (props) {
     super(props);
     this.state = {
        open: true,
        currentColor: 'teal',
        newColorName: '',
-       colors: [{color: 'blue', name: 'blue'}],
+       colors: this.props.palettes[0].colors,
        newPaletteName: ''
     };
     this.updateCurrentColor = this.updateCurrentColor.bind(this);
@@ -95,6 +98,8 @@ class NewPaletteForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.removeColor = this.removeColor.bind(this);
+    this.clearColors = this.clearColors.bind(this);
+    this.addRandomColor = this.addRandomColor.bind(this);
 
   }
   componentDidMount() {
@@ -123,7 +128,6 @@ class NewPaletteForm extends Component {
     this.setState({ open: false });
   };
   updateCurrentColor(newColor) {
-    console.log(newColor.hex);
     this.setState({ currentColor: newColor.hex});
   }
   addNewColor() {
@@ -157,10 +161,21 @@ class NewPaletteForm extends Component {
       colors: arrayMove(colors, oldIndex, newIndex)
     }));
   };
+  clearColors() {
+    this.setState({ colors: [] });
+    console.log('colors: ', this.state.colors);
+  }
+  addRandomColor() {
+    const allColors = this.props.palettes.map(p => p.colors).flat();
+    var rand = Math.floor(Math.random() * allColors.length);
+    const randomColor = allColors[rand];
+    this.setState({ colors: [...this.state.colors, randomColor]})
+  }
 
   render(e) {
-    const { classes } = this.props;
-    const { open } = this.state;
+    const { classes, maxColors } = this.props;
+    const { open, colors } = this.state;
+    const paletteIsFull = colors.length >= maxColors;
 
     return (
       <div className={classes.root}>
@@ -220,8 +235,18 @@ class NewPaletteForm extends Component {
           <Divider />
           <Typography variant='h4'> Design Your Palette </Typography>
           <div>
-            <Button variant="contained" color="secondary">Clear Palette</Button>
-            <Button variant="contained" color="primary">Random color</Button>
+            <Button 
+              variant="contained" 
+              color="secondary"
+              onClick={this.clearColors}>
+                Clear Palette
+            </Button>
+            <Button 
+              variant="contained" 
+              color="primary"
+              disabled = {paletteIsFull}
+              onClick={this.addRandomColor}
+              >Random color</Button>
           </div>
           <ChromePicker 
               color={this.state.currentColor}
@@ -238,9 +263,12 @@ class NewPaletteForm extends Component {
               <Button 
                 type='submit'  
                 variant="contained"
-                style={{backgroundColor: this.state.currentColor}} 
+                style={{backgroundColor: paletteIsFull 
+                  ? 'grey' :
+                   this.state.currentColor}} 
+                disabled = {paletteIsFull}
                 color="primary" >
-                  Add color
+                  {paletteIsFull ? 'Palette full' : 'Add Color'}
               </Button>
             </div>
           </ValidatorForm>
