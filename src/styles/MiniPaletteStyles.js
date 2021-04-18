@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   root: {
     backgroundColor: "white",
@@ -50,6 +51,8 @@ export default {
     top: "0px",
     padding: "10px",
     zIndex: 10,
-    opacity: 0
+    opacity: 1 
+    //opacity should be 0 and then hover over on root, which then gets opacity of 1. This however 
+    //did not work, maybe its a go back and fix later.
   }
 };
