@@ -10,12 +10,23 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button'
 import PaletteMetaForm from './PaletteMetaForm';
+ 
 
 class PaletteFormNav extends Component {
     constructor(props) {
         super(props);
-        this.state = {  }
+        this.state = { newPaletteName: '' ,formShowing: false }
         this.handleChange = this.handleChange.bind(this);
+        this.showForm = this.showForm.bind(this);
+        this.hideForm = this.hideForm.bind(this);
+
+    }
+
+    showForm(){
+        this.setState({ formShowing: true})
+    }
+    hideForm(){
+        this.setState({ formShowing: false})
     }
     handleChange(e){
         this.setState({[e.target.name]: e.target.value});
@@ -45,7 +56,6 @@ class PaletteFormNav extends Component {
                     <Typography variant="h6" color="inherit" noWrap>
                     Persistent drawer
                     </Typography>
-                    <PaletteMetaForm palettes={palettes} handleSubmit={handleSubmit}/>
                     <Link to='/'>
                     <Button 
                         variant="contained" 
@@ -54,10 +64,21 @@ class PaletteFormNav extends Component {
                         Go Back
                     </Button>
                     </Link>
-
+                    <Button 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={this.showForm}>
+                        Save
+                    </Button>
                 </Toolbar>
                 </AppBar>
-            </div>
+                {this.state.formShowing && 
+                    <PaletteMetaForm 
+                        palettes={palettes} 
+                        handleSubmit={handleSubmit}
+                        hideForm={this.hideForm}/>
+                }    
+                </div>
         )
     }
 }
